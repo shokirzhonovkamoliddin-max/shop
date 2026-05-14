@@ -1,22 +1,37 @@
-const api = "https://fakestoreapi.com/products";
+const api = `https://www.omdbapi.com/?s=terminator&apikey=c65fcde9`;
+const elloading = document.querySelector(".loading");
+const ellist = document.querySelector(".cards");
 
-fetch(api)
-  .then((response) => response.json())
-  .then((data) => product(data));
+const getdata = (url) => {
+    elloading.innerHTML = "Loading...";
+  fetch(url)    
+    .then((response) => response.json())
+    .then((data) => {
+      showdata(data);
+    })
+    .finally(() => {
+        elloading.innerHTML = "";
+    })
+};
 
-function product(products) {
-  const container = document.getElementsByClassName("products")[0];
+getdata(api);
+function showdata(movies) {
+  if (movies.Response === "True") {
+    const { Search } = movies;
 
-  products.forEach((product) => {
-    const card = document.createElement("div");
+    Search.forEach((element) => {
+      const { Title, Poster, Year, Type } = element;
 
-    card.className = "product-card";
-    card.innerHTML = `
-      <img src="${product.image}" /> 
-      <h3>${product.title.slice(0, 20)}...</h3>
-      <p class="price">$${product.price}</p>
-      <button> savatga qoshish</button>
-    `;
-    container.appendChild(card);
-  });
+      ellist.innerHTML += `
+            <div class="card">
+              <img src="${Poster}" alt="" />
+              <h2>${Title}</h2>
+              <p>${Year}</p>
+              <p>${Type}</p>
+            </div>
+            `;
+    });
+  } else {
+    console.log("not found");
+  }
 }
