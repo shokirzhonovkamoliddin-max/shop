@@ -37,18 +37,10 @@ function showData(movies) {
   elList.innerHTML = "";
 
   if (movies.Response === "True") {
-
     const { Search } = movies;
 
     Search.forEach((element) => {
-
-      const {
-        Poster,
-        Title,
-        Type,
-        Year,
-        imdbID
-      } = element;
+      const { Poster, Title, Type, Year, imdbID } = element;
 
       elList.innerHTML += `
         <div class="card">
@@ -71,7 +63,6 @@ function showData(movies) {
         </div>
       `;
     });
-
   } else {
     elList.innerHTML = `
       <h2>Movie not found</h2>
@@ -80,11 +71,9 @@ function showData(movies) {
 }
 
 function getOneMovies(id) {
-
   fetch(`https://www.omdbapi.com/?i=${id}&apikey=c65fcde9`)
     .then((response) => response.json())
     .then((data) => {
-
       const {
         Title,
         Year,
